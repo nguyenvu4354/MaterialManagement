@@ -1,31 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package entity;
+package dal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author HP
- */
 public class DBConnect {
     protected Connection connection;
-    public DBConnect()
-    {
+
+    public DBConnect() {
         try {
-            // Edit URL , username, password to authenticate with your MS SQL Server
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=Bookstore;encrypBookStoret=true;trustServerCertificate=true";
-            String username = "sa";
+            String url = "jdbc:mysql://127.0.0.1:3306/bookstore?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+            String username = "root";
             String password = "1502";
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
+
+            System.out.println("✅ Kết nối thành công tới MySQL!");
+
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex);
+            System.out.println("❌ Lỗi kết nối: " + ex.getMessage());
         }
+    }
+
+    public static void main(String[] args) {
+        new DBConnect();
     }
 }
