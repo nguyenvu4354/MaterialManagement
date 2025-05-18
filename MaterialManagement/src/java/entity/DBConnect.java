@@ -13,7 +13,6 @@ public class DBConnect {
             String password = "1502";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
-
             System.out.println("✅ Kết nối thành công tới MySQL!");
 
         } catch (ClassNotFoundException | SQLException ex) {
