@@ -11,7 +11,6 @@ public class DBConnect {
             String url = "jdbc:mysql://127.0.0.1:3306/bookstore?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             String username = "root";
             String password = "1502";
-
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
 
