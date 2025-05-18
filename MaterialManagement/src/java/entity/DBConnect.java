@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 public class DBConnect {
     protected Connection connection;
-
     public DBConnect() {
         try {
             String url = "jdbc:mysql://127.0.0.1:3306/bookstore?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
