@@ -1,14 +1,14 @@
-package dal;
+package entity;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnect {
+public class DBContext {
     protected Connection connection;
-    public DBConnect() {
+    public DBContext() {
         try {
-            String url = "jdbc:mysql://127.0.0.1:3306/bookstore?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+            String url = "jdbc:mysql://127.0.0.1:3306/material_management?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
             String username = "root";
             String password = "1502";
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -21,6 +21,6 @@ public class DBConnect {
     }
 
     public static void main(String[] args) {
-        new DBConnect();
+        new DBContext();
     }
 }

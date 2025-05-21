@@ -1,9 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
+import dal.UserDAO;
+import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,47 +9,43 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
-/**
- *
- * @author nguye
- */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        // Lấy dữ liệu từ form login
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Gọi DAO để kiểm tra đăng nhập
+        UserDAO userDAO = new UserDAO(); // UserDAO kế thừa DBConnect
+        User user = userDAO.login(username, password);
+
+        if (user != null) {
+            // Đăng nhập thành công
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user); // Lưu thông tin user vào session
+            response.sendRedirect("HomePage.jsp");  // Chuyển hướng tới trang chính
+        } else {
+            // Đăng nhập thất bại
+            request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+        // Điều hướng người dùng về trang login nếu truy cập bằng GET
+        response.sendRedirect("Login.jsp");
     }
 
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Login Servlet xử lý đăng nhập người dùng";
+    }
 }
